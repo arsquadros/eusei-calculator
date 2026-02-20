@@ -2,3 +2,5 @@ streamlit
 pydantic
 pandas
 numpy
+plotly
+google-cloud-firestore
