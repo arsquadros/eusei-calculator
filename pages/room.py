@@ -128,17 +128,32 @@ if new_task_title != room_data.get("task_title"):
     room_ref.set({"task_title": new_task_title, "status": room_data.get("status")}, merge=True)
 
 # --- Sidebar: User Inputs (Visual do v1) ---
-inputs = {}
 with st.sidebar:
     st.header("⚙️ Seus Parâmetros")
+    current_inputs = {}
     for key, conf in METRICS_CONFIG.items():
+        # Capturamos a descrição para usar como ajuda contextual
+        help_text = conf.get("description", "Sem descrição disponível.")
+        
         if conf["type"] == "number":
-            inputs[key] = st.number_input(conf["display_name"], conf["min"], conf["max"], value=0.0)
+            current_inputs[key] = st.number_input(
+                conf["display_name"], 
+                min_value=conf["min"], 
+                max_value=conf["max"], 
+                value=0.0,
+                help=help_text  # Adiciona o ícone de "info"
+            )
         else:
-            inputs[key] = st.slider(conf["display_name"], int(conf["min"]), int(conf["max"]), 5)
-    
+            current_inputs[key] = st.slider(
+                conf["display_name"], 
+                int(conf["min"]), 
+                int(conf["max"]), 
+                5,
+                help=help_text  # Adiciona o ícone de "info"
+            )
+
     if st.button("🚀 Enviar/Atualizar Voto", use_container_width=True):
-        votes_ref.document(user_name).set(inputs)
+        votes_ref.document(user_name).set(current_inputs)
         st.success("Voto enviado!")
 
 # --- Main Logic: Reveal Mechanism ---
@@ -159,7 +174,7 @@ def auto_refresh_votes(votes_ref, room_ref):
         if room_data.get("status") == "voting":
             st.info(f"🗳️ **Status: Em votação.** {len(all_votes)} votos computados.")
         else:
-            st.success("✅ Resultados revelados! Role para baixo.")
+            st.success("✅ Resultados revelados!")
             
     with col_refresh:
         if st.button("🔄 Sync", help="Forçar atualização manual"):
@@ -206,7 +221,7 @@ else:
 
         st.markdown(f"""
         ### 🧩 Classificação Fibonacci
-        A tarefa foi classificada como **{category}**. No contexto de engenharia sintética, isso sugere um valor de Fibonacci **({fib})**.
+        A tarefa foi classificada como **{category} ({fib} Story Points)**.
         
         > **Intervalo de Confiança Coletivo:** O índice real está entre **{lower_bound}** e **{upper_bound}**.
         """)
