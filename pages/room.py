@@ -81,7 +81,7 @@ room_id = st.session_state.get("room_id")
 user_name = st.session_state.get("user_name")
 task_id = st.session_state.get("current_task_id", "default_task") # ID único por tarefa
 
-collection_name = f"{st.secrets['firestore']['collection_name']}-{st.secrets['environment']['environment']}"
+collection_name = f"{st.secrets['firestore']['collection_name']}-{st.secrets['firestore']['environment']}"
 
 room_ref = db.collection(collection_name).document(room_id)
 task_ref = room_ref.collection("tasks").document(task_id)

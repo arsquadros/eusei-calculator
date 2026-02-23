@@ -34,7 +34,7 @@ def main() -> None:
                 room_id = room_id_input.strip().replace(" ", "_")
                 user_name = user_name_input.strip()
                 
-                collection_name = f"{st.secrets['firestore']['collection_name']}-{st.secrets['environment']['environment']}"
+                collection_name = f"{st.secrets['firestore']['collection_name']}-{st.secrets['firestore']['environment']}"
 
                 # Referências
                 room_ref = db.collection(collection_name).document(room_id)
