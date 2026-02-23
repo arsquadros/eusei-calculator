@@ -1,3 +1,6 @@
+# config constants
+
+DISCRETE_SCALE = [1, 2, 3, 5, 8, 13]
 METRICS_CONFIG = {
     "hours": {
         "display_name": "Tempo Estimado em Horas",

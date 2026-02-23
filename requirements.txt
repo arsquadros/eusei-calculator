@@ -2,5 +2,7 @@ streamlit
 pydantic
 pandas
 numpy
+matplotlib
+load_dotenv
 plotly
 google-cloud-firestore
